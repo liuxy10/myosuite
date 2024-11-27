@@ -12,3 +12,7 @@ Pillow
 pink-noise-rl
 packaging
 gitpython
+gym
+
+
+-e .gitmodules

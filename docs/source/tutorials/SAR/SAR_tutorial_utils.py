@@ -358,7 +358,7 @@ def get_vid(name, env_name, seed, episodes, video_name, determ=False,
 
     for i,__ in tqdm(enumerate(range(episodes))):
         env.reset()
-
+        print(seed)
         model = SAC.load(f'{name}_model_{env_name}_{seed}.zip')
         vec = VecNormalize.load(f'{name}_env_{env_name}_{seed}', DummyVecEnv([lambda: env]))
 

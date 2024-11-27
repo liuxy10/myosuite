@@ -454,8 +454,8 @@ Links are available for `manipulation <https://colab.research.google.com/drive/1
 
     from myosuite.utils import gym
     # Include the locomotion track environment, uncomment to select the manipulation challenge
-    # env = gym.make('myoChallengeOslRunRandom-v0')
-    env = gym.make('myoChallengeBimanual-v0')
+    env = gym.make('myoChallengeOslRunRandom-v0')
+    #env = gym.make('myoChallengeBimanual-v0')
     
 
     env.reset()

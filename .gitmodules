@@ -14,3 +14,6 @@
 [submodule "myosuite/simhive/YCB_sim"]
 	path = myosuite/simhive/YCB_sim
 	url = https://github.com/vikashplus/YCB_sim.git
+[submodule "docs/source/tutorials/baselines_DEPRL/DEPRL"]
+	path = docs/source/tutorials/baselines_DEPRL/DEPRL
+	url = https://github.com/martius-lab/depRL.git

@@ -176,7 +176,7 @@ class MyoLegReflex(object):
         # Run a step of the Mujoco env and Reflex controller
         is_done = False
 
-        new_act = self.reflex2mujoco(self.update())
+        new_act = self.reflex2mujoco(self.update()) 
         self.env.step(new_act)
 
         self.update_footstep()

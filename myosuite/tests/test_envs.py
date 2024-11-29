@@ -37,6 +37,15 @@ class TestEnvs(unittest.TestCase):
 
 
     def check_env(self, environment_id, input_seed):
+        """
+        This function tests the environment by creating an instance of the environment and testing the following:
+        1. The environment can be initialized with a seed
+        2. The environment can be reseeded and reset
+        3. The environment can step with small controls
+        4. The environment can get proprioception and exteroception
+        5. The environment can get observation and reward dictionaries
+        6. The environment can be serialized and deserialized
+        """
 
         # If requested, skip tests for envs that requires encoder downloading
         ROBOHIVE_TEST = os.getenv('ROBOHIVE_TEST')

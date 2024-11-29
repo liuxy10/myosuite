@@ -14,5 +14,3 @@ packaging
 gitpython
 gym
 
-
--e .gitmodules

@@ -22,7 +22,7 @@ from myosuite.physics.sim_scene import SimScene
 
 
 class DMSimScene(SimScene):
-    """Encapsulates a MuJoCo robotics simulation using dm_control."""
+    """Encapsulates a MuJoCo robotics simulation using dm_control.""" 
 
     def _load_simulation(self, model_handle: Any) -> Any:
         """Loads the simulation from the given model handle.
@@ -36,7 +36,7 @@ class DMSimScene(SimScene):
         """
         if isinstance(model_handle, str):
             if model_handle.endswith('.xml'):
-                sim = dm_mujoco.Physics.from_xml_path(model_handle)
+                sim = dm_mujoco.Physics.from_xml_path(model_handle) # Load from XML file
             elif isinstance(model_handle, str) and "<mujoco" in model_handle:
                 sim = dm_mujoco.Physics.from_xml_string(model_handle)
             else:

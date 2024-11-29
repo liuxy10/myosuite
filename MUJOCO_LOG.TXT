@@ -1,3 +1,6 @@
 Tue Nov 26 01:09:38 2024
 WARNING: mju_openResource: unknown file 'None/model/humanoid.xml'
 
+Thu Nov 28 23:00:59 2024
+ERROR: could not initialize GLFW
+

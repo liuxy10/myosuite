@@ -35,7 +35,7 @@ _ROBOT_VIZ = False
 
 class Robot():
     """
-    A unified viewpoint of robot between simulation(sim) and hardware(hdr)
+    A unified viewpoint of robot between simulation(sim) and hardware(hdr) interfaces.
     """
     # Cached a persistent connection to the robot that is shared for the application's lifetime.
     robot_config = None

@@ -11,7 +11,7 @@ extends https://github.com/facebookresearch/TCDM/blob/main/tcdm/rl/trainers/util
 import os
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.evaluation import evaluate_policy
-from collections import deque as dq
+from collections import deque as dq # deque is a double-ended queue that supports adding and removing elements from either end in O(1) time
 from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import time
@@ -46,6 +46,7 @@ class FallbackCheckpoint(BaseCallback):
 
 class SaveSuccesses(BaseCallback):
     """
+    
     :param check_freq:
     :param log_dir: Path to the folder where the model will be saved.
       It must contains the file created by the ``Monitor`` wrapper.
@@ -55,7 +56,7 @@ class SaveSuccesses(BaseCallback):
         super(SaveSuccesses, self).__init__(verbose)
         self.check_freq = check_freq
         self.save_path = log_dir
-        self.success_buffer = dq(maxlen=200)
+        self.success_buffer = dq(maxlen=200) # 200 is arbitrary
         self.success_results = np.zeros(timesteps)
         self.env_name = env_name
         

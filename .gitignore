@@ -116,11 +116,15 @@ tags
 .vscode/settings.json
 
 # Media #
-.mp4
+*.mp4
 
+# saved models
+*.zip
 # OSL logs #
 osl.csv
 osl.log
 /workspace
 
 *processed.xml
+**/progress.csv
+

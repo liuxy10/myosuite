@@ -32,6 +32,84 @@ os.environ['MUJOCO_GL'] = 'egl'
 warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
 plt.rcParams["font.family"] = "Latin Modern Roman"
 
+def zeroshot_test(name, test_env_name, env_name='myoHandReorient100-v0', seed='0', determ=True, ica=None, 
+                  pca=None, normalizer=None, phi=.66, episodes=500, is_sar=False, syn_nosyn=False):
+    """
+    Check zero-shot performance of policies on the test environments.
+    
+    name: str; name of the policy to test
+    env_name: str; name of gym env the policy to test was trained on (Reorient100-v0).
+    seed: str; seed of the policy to test
+    test_env_name: str; name of the desired test env
+    ica: if testing SAR-RL, the ICA object
+    pca: if testing SAR-RL, the PCA object
+    normalizer: if testing SAR-RL, the normalizer object
+    phi: float; blend parameter between synergistic and nonsynergistic activations
+    episodes: int; number of episodes to run on the test environment
+    """
+    if is_sar:
+        if syn_nosyn:
+            env = SynNoSynWrapper(gym.make(test_env_name), ica, pca, normalizer, phi)
+        else:
+            # env = SynergyWrapper(gym.make(test_env_name), ica, pca, normalizer, phi)
+            env = SynergyWrapper(gym.make(test_env_name), ica, pca, normalizer)
+    else:
+        env = gym.make(test_env_name)
+    env.reset()
+
+    model = SAC.load(f'{name}_model_{env_name}_{seed}')
+    vec = VecNormalize.load(f'{name}_env_{env_name}_{seed}', DummyVecEnv([lambda: env]))
+    solved = []
+    for i,_ in enumerate(range(episodes)):
+        is_solved = []
+        env.reset()
+        done = False
+        while not done:
+            o = env.get_obs()
+            o = vec.normalize_obs(o)
+            a, __ = model.predict(o, deterministic=determ)
+            next_o, r, done, *_, info = env.step(a)
+            is_solved.append(info['solved']) # info['solved'] is a boolean, meaning the task was solved,the definition of solved is defined in the environment
+        
+        if sum(is_solved) > 0:
+            solved.append(1)
+        else:
+            solved.append(0)
+
+    env.close()
+    return np.mean(solved)
+
+
+
+def train(env_name, policy_name, timesteps, seed):
+    """
+    Trains a policy using sb3 implementation of SAC.
+    
+    env_name: str; name of gym env.
+    policy_name: str; choose unique identifier of this policy
+    timesteps: int; how long you want to train your policy for
+    seed: str (not int); relevant if you want to train multiple policies with the same params
+    """
+    env = gym.make(env_name)
+    env = Monitor(env)
+    env = DummyVecEnv([lambda: env])
+    env = VecNormalize(env, norm_obs=True, norm_reward=False, clip_obs=10.)
+    
+    net_shape = [400, 300]
+    policy_kwargs = dict(net_arch=dict(pi=net_shape, qf=net_shape))
+    
+    model = SAC('MlpPolicy', env, learning_rate=linear_schedule(.001), buffer_size=int(3e5),
+            learning_starts=1000, batch_size=256, tau=.02, gamma=.98, train_freq=(1, "episode"),
+            gradient_steps=-1,policy_kwargs=policy_kwargs, verbose=1)
+    
+    succ_callback = SaveSuccesses(check_freq=1, env_name=env_name+'_'+seed, 
+                             log_dir=f'{policy_name}_successes_{env_name}_{seed}')
+    
+    model.set_logger(configure(f'{policy_name}_results_{env_name}_{seed}'))
+    model.learn(total_timesteps=int(timesteps), callback=succ_callback, log_interval=4)
+    model.save(f"{policy_name}_model_{env_name}_{seed}")
+    env.save(f'{policy_name}_env_{env_name}_{seed}')
+
 def show_video(video_path, video_width=600):
     """
     Displays any mp4 video within the notebook.
@@ -358,14 +436,18 @@ def get_vid(name, env_name, seed, episodes, video_name, determ=False,
 
     for i,__ in tqdm(enumerate(range(episodes))):
         env.reset()
-        print(seed)
+        # print(seed)
         model = SAC.load(f'{name}_model_{env_name}_{seed}.zip')
+        print(f"Loaded {name}_model_{env_name}_{seed}.zip")
         vec = VecNormalize.load(f'{name}_env_{env_name}_{seed}', DummyVecEnv([lambda: env]))
 
         rs = 0
         is_solved = []
         done = False
-        while not done:
+        it = 0
+        # while not done and it < 100:
+        for it in tqdm(range(100)):
+            
             o = vec.normalize_obs(env.get_obs())
             a, __ = model.predict(o, deterministic=determ)
 
@@ -374,7 +456,12 @@ def get_vid(name, env_name, seed, episodes, video_name, determ=False,
 
             next_o, r, done,  *_, info = env.step(a)
             is_solved.append(info['solved'])
-
             rs+=r
+
+            if done:
+                break
+            
+
+            
     env.close()
     skvideo.io.vwrite(f'{video_name}.mp4', np.asarray(frames),outputdict={"-pix_fmt": "yuv420p"})

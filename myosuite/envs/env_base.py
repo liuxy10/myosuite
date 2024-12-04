@@ -10,7 +10,7 @@ import numpy as np
 import os
 import time as timer
 
-from myosuite.envs.obs_vec_dict import ObsVecDict
+from myosuite.envs.obs_vec_dict import ObsVecDict  
 from myosuite.utils import tensor_utils
 from myosuite.robot.robot import Robot
 from myosuite.utils.implement_for import implement_for
@@ -470,7 +470,7 @@ class MujocoEnv(gym.Env, gym.utils.EzPickle, ObsVecDict):
             'time': self.obs_dict['time'][()],          # MDP(t)
             'rwd_dense': self.rwd_dict['dense'][()],    # MDP(t)
             'rwd_sparse': self.rwd_dict['sparse'][()],  # MDP(t)
-            'solved': self.rwd_dict['solved'][()],      # MDP(t)
+            'solved': self.rwd_dict['solved'][()],      # MDP(t) # definition of solved is task specific, defined in get_reward_dict
             'done': self.rwd_dict['done'][()],          # MDP(t)
             'obs_dict': self.obs_dict,                  # MDP(t)
             'visual_dict': visual_dict,                 # MDP(t), will be {} if user hasn't explicitly updated self.visual_dict at the current time

@@ -1,0 +1,42 @@
+{
+  "os": "Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.17",
+  "python": "3.8.20",
+  "startedAt": "2024-12-03T19:48:34.291005Z",
+  "program": "test_osl.py",
+  "codePath": "test_osl/test_osl.py",
+  "git": {
+    "remote": "https://github.com/liuxy10/myosuite.git",
+    "commit": "bac56f3d3fee9e3fd1325fe2891337469ce94712"
+  },
+  "email": "liuxytxdy10@gmail.com",
+  "root": "/home/xliu227/Github/myosuite/test_osl",
+  "host": "o-4402eb3-109",
+  "username": "xliu227",
+  "executable": "/home/xliu227/miniconda3/envs/myosuite/bin/python",
+  "codePathLocal": "test_osl.py",
+  "cpu_count": 10,
+  "cpu_count_logical": 20,
+  "gpu": "NVIDIA RTX A2000",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "1081101176832",
+      "used": "112764198912"
+    }
+  },
+  "memory": {
+    "total": "16620302336"
+  },
+  "cpu": {
+    "count": 10,
+    "countLogical": 20
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA RTX A2000",
+      "memoryTotal": "6436159488",
+      "architecture": "Ampere"
+    }
+  ],
+  "cudaVersion": "12.6"
+}

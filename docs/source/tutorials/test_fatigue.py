@@ -6,7 +6,7 @@ env        = gym.make('myoElbowPose1D6MRandom-v0',normalize_act=False)
 envFatigue = gym.make('myoFatiElbowPose1D6MRandom-v0',normalize_act=False)
 
 env.reset()
-envFatigue.reset();
+envFatigue.reset()
 data_store = []
 data_store_f = []
 for i in range(20): # 10 episodes

@@ -94,7 +94,7 @@ class ReachEnvV0(BaseV0):
         near_th = len(self.tip_sids)*.050
         rwd_dict = collections.OrderedDict((
             # Optional Keys
-            ('reach',   10.-1.*reach_dist -10.*vel_dist),
+            ('reach',   10.-1.*reach_dist -10.*vel_dist), # 10 is the max reward
             ('bonus',   1.*(reach_dist<2*near_th) + 1.*(reach_dist<near_th)),
             ('act_reg', -100.*act_mag),
             ('penalty', -1.*(reach_dist>far_th)),
@@ -254,7 +254,7 @@ class WalkEnvV0(BaseV0):
             # Must keys
             ('sparse',  vel_reward),
             ('solved',    vel_reward >= 1.0),
-            ('done',  self._get_done()),
+            ('done',  self._get_done()), 
         ))
         rwd_dict['dense'] = np.sum([wt*rwd_dict[key] for key, wt in self.rwd_keys_wt.items()], axis=0)
         return rwd_dict

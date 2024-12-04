@@ -1,0 +1,1 @@
+{"global_step":32,"_step":6,"eval/time":1.7222111,"eval/mean_TimeLimit.truncated":0,"eval/mean_reward":46.922615,"_timestamp":1.733254205542957e+09,"eval/mean_rwd_dense":-100.2228,"eval/mean_rwd_sparse":1.6012638,"_runtime":22.937133926,"_wandb":{"runtime":56},"eval/mean_time":0.3508,"eval/mean_length":35.08}
